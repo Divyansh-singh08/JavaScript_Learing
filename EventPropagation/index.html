@@ -1,0 +1,40 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event propagation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="outer">
+    <div id="inner"></div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Bubbling</title>
+</head>
+<body>
+  <div id="parent">
+    <button id="child">Child</button>
+  </div>
+  <script>
+    var parent = document.querySelector('#parent');
+      parent.addEventListener('click', function(){
+        console.log("Parent clicked");
+      });
+    var child = document.querySelector('#child');
+      child.addEventListener('click', function(){
+        console.log("Child clicked");
+      });
+  </script>
+</body>
+</html>

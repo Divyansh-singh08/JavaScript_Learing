@@ -1,0 +1,63 @@
+/* #toggle{
+    border:2px solid blue;
+} */
+#container {
+    /* border:2px solid green; */
+    margin-top:25%;
+    display: flex;
+    height:50vh;
+    width:100vh;
+    flex-direction: column;
+    font-size:7vh;
+    font-weight: bold;
+    justify-content:space-between;
+    /* justify-content: center; */
+    align-items: center;
+    align-content: space-between;    
+
+}
+
+.oval{
+
+    height:30px;
+    width:150px;
+    border:2px solid black;
+    border-radius:20px;
+    position:relative;
+}
+
+.circle{
+    /* border: 2px solid red; */
+    background-color:black;
+    border-radius:50%;
+    width:29px;
+    height: 29px;
+
+}
+
+.toggleCircle {
+    background-color:black;
+    border-radius:50%;
+    width:28px;
+    height: 28px;
+
+    position:absolute;
+    left:120px;
+}
+
+.toggleOval {
+    height:30px;
+    width: 150px;
+    border:2px solid rgb(4, 4, 4);
+    border-radius: 20px;
+    position: relative;
+    background-color: white;
+    border:2px solid rgb(222, 212, 212);
+
+}
+
+
+.toggleBack {
+    background-color: rgb(240, 136, 136);
+    color:rgb(132, 120, 14);
+}

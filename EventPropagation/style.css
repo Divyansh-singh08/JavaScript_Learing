@@ -1,0 +1,20 @@
+#inner{
+    background-color:greenyellow;
+    height:150px;
+    width: 150px;
+    cursor: pointer;
+}
+
+#outer{
+    background-color:hotpink;
+    height:300px;
+    width: 300px;
+    margin:50px auto;
+    padding:50px;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-position:cover;
+    
+    
+
+}
