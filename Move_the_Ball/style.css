@@ -1,0 +1,35 @@
+body{
+    margin:0;
+    padding:0;
+    box-sizing: 0;
+    color:#fff;
+}
+
+#move-circle{
+    background-color: aquamarine;
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    position:absolute;
+    left:1px;
+    top:1px;
+    float:left;
+    display:inline;
+    box-sizing: border-box;
+    padding-top:60px;
+    padding-left:53px;
+
+
+}
+
+
+@media only screen and (max-width:600px){
+
+    #move-circle{
+        height:100px;
+        width: 100px;
+        padding-top:35px;
+        padding-left: 25px;;
+    }
+}
+
