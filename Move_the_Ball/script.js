@@ -1,18 +1,19 @@
 var ballMove = document.getElementById('move-circle');
-
+console.log(ballMove);
 document.addEventListener('keydown',moveBall);
 
 var left=0,t=0;
 
 function moveBall(event) {
     //this will give width of the element including the scrollbar anf tools and borders
+    console.log("event ",event);
     var elementW = ballMove.offsetWidth;
-    console.log(elementW);
+    console.log("elementW "+elementW);
     //this will be  give width of the browser window excluding scrollbar and tools
     var browW = document.documentElement.clientWidth;
-    console.log(browW);
+    console.log("browW "+browW);
     var browH = document.documentElement.clientHeight;
-    console.log(browH);
+    console.log("browH "+browH);    
 
     var keyCodes =  event.keyCode;
     console.log(keyCodes);
