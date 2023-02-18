@@ -1,0 +1,90 @@
+body{
+
+  background: #222;
+}
+
+#container{
+position: relative;
+
+}
+
+#ball {
+width: 20px;
+height: 20px;
+background-color: black;
+position: fixed;
+top: 20px;
+left: 52.5%;
+border-radius: 50%;
+
+box-shadow: 0 0 20px #33ffff;
+opacity: 10;
+}
+
+#rod1, #rod2 {
+width: 200px;
+height: 30px;
+position: fixed;
+left: 50%;
+
+text-align: center;
+color: white;
+font-weight: bold;
+}
+
+#rod1 {
+background-color:black;
+top: 0px;    
+
+
+border: 6px solid transparent;
+border-image: linear-gradient(#14ffe9,#ffeb3b,#ff30eb);
+
+border-image-slice: 1;
+
+
+}
+
+#rod2 {
+background-color: black;
+bottom: 0px;
+
+
+
+
+border-radius: 25px;
+
+border: 6px solid transparent;
+border-image: linear-gradient(#14ffe9,#ffeb3b,#ff30eb);
+
+border-image-slice: 1;
+
+
+}
+
+
+
+.module {
+max-width: 250px;
+padding: 1rem;
+color: white;
+
+position: relative;
+
+top: 200px;
+border-width: 3px;
+border-style: solid;
+border-image: 
+linear-gradient(
+  to bottom, 
+  red, 
+  rgba(0, 0, 0, 0)
+) 1 100%;
+}
+
+#oh{
+
+color: orange;
+font-size: 20px;
+}
+
