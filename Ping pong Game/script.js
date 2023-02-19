@@ -1,216 +1,320 @@
-var ball = document.getElementById('ball');
-var rod1 = document.getElementById('rod1');
-var rod2 = document.getElementById('rod2');
+var rod1 = document.getElementsByClassName("rod1")[0];
+console.log("rod1 "+rod1.innerHTML);
+var rod2 = document.getElementsByClassName("rod2")[0];
+console.log("rod2 "+rod2.innerHTML);
+var ball = document.getElementsByClassName("ball")[0];
+console.log("ball "+ ball.innerHTML);
+var container = document.getElementsByClassName("container")[0];
+console.log("container "+container.innerHTML);
 
-var rule = document.getElementById('rule');
+var size = 10;
+var score1 = 0 , score2 = 0;
+var currentRod = rod2;
+console.log("currentRod is "+currentRod.innerHTML);
+var gameStart = false;
+var xDirec , yDirec;
+
+var l1 = document.getElementsByClassName("heart1");
+console.log("heart1 "+ l1.innerHTML);
+var l2 = document.getElementsByClassName("heart2");
+console.log("heart2 "+ l2.innerHTML);
+var livesNo1 = 3,livesNo2 = 3;
+
+var notIntial = true , id;
+//this is the buttton which handle when we click on the start game
+var startB = document.getElementById("start-button");
+console.log("startButton "+ startB.innerText + startB.innerHTML);
+var newGameB = document.getElementById("new-game-button");
+console.log("newGameB "+ newGameB.innerText + newGameB.innerHTML);
+var scoreDisp1 = document.getElementById("score-display1");
+console.log("scoreDisp1 "+scoreDisp1.innerHTML);
+var scoreDisp2 = document.getElementById("score-display2");
+console.log("scoreDisp2 "+ scoreDisp2.innerHTML);
+
+// click on newGame function start  
+newGameB.addEventListener('click',newGame);
+//handling game for start page point
+startB.addEventListener('click',visibleScreen);
+document.addEventListener('keydown',moveRod);
+document.addEventListener('keypress',launchBall);
+window.addEventListener('resize', setGame);
+
+setGame(); //to set game intially
+
+/*to start new game*/
+function newGame()
+{
+  clearInterval(id);
+  //container.classList.add("blurry");
+  //this will help in adding start page in blurry open page
+  document.getElementById("body-container").classList.add("blurry");
+  //buy doing this opacity page will be visible
+  startB.classList.remove("hidden");
+
+  currentRod = rod2;
+
+  for(var i=0;i<3;i++)
+    {
+      l1[i].style.visibility = "visible";
+      l2[i].style.visibility = "visible";
+    }
+  livesNo1 = 3;
+  livesNo2 = 3;
+  setGame();
+  score1 = 0 ,score2 = 0;
+  scoreDisp1.innerText = 0 + "";
+  scoreDisp2.innerText = 0 + "";
 
 
-//this is function to creating audio onject
-
-//for making multiple audio object we can use counstruvtor function
+}
 
 
-function sound(src) {
-  this.sound = document.createElement("audio");
-  this.sound.src = src;
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function(){
-    this.sound.play();
+
+/*make screen visible when start game ckicked*/
+function visibleScreen()
+{
+  // container.classList.remove("blurry");
+  document.getElementById("body-container").classList.remove("blurry");
+  startB.classList.add("hidden");
+}
+
+
+
+//to control rods
+
+//most imp function for the code is this one
+function moveRod(event)
+{
+  var r2Left = rod2.offsetLeft;
+  console.log("r2Left is the  "+r2Left);
+  var r1Left = rod1.offsetLeft;
+  console.log("r1Left is the "+r1Left);
+
+  var key = event.keyCode;
+  console.log("key is "+key);
+
+  var elementW = rod2.offsetWidth;
+  console.log("elementW is "+elementW);
+
+	var containerW = container.clientWidth;
+  console.log("containerW is "+containerW);
+
+	var containerH = container.clientHeight;
+  console.log("containerH is "+containerH);
+
+  console.log(event.keyCode);
+  if(key == 68) //d pressed for moving rod1 right
+  {
+    if(r1Left+elementW+size<=containerW)
+    {
+      rod1.style.left = r1Left+size + "px";
+      r1Left+=size;
+
+    }
+    else
+    {
+      rod1.style.left = containerW-elementW + "px";
+      r1Left = containerW-elementW;
+
+    }
+    if(gameStart == false)
+      resetBall();
+
   }
-  this.stop = function(){
-    this.sound.pause();
+  else if(key == 65) //a pressed for moving rod1 left
+  {
+    if(r1Left-size>=0)
+    {
+      rod1.style.left = r1Left-size+"px";
+      r1Left-=size;
+    }
+    else{
+      rod1.style.left = "0px";
+      r1Left = 0;
+    }
+    if(gameStart == false)
+      resetBall();
+
+  }
+  if(key == 68 )//d pressed for moving rod2 right
+    {
+      if(r2Left+elementW+size<=containerW)
+			{
+        rod2.style.left = r2Left + size + "px";
+        r2Left+=size;
+			}
+			else {
+        rod2.style.left = containerW-elementW + "px";
+        r2Left = containerW-elementW;
+			}
+      if(gameStart == false)
+        resetBall();
+
+    }
+  else if(key == 65)//a pressed for moving rod2 left
+    {
+      if(r2Left-size>=0)
+      {
+        rod2.style.left = r2Left-size+"px";
+        r2Left-=size;
+      }
+      else
+      {
+        rod2.style.left = "0px";
+        r2Left = 0;
+      }
+      if(gameStart == false)
+        resetBall();
+    }
+
+}
+
+//to set ball direction before lauching when enter pressed and then call startGame
+function launchBall(event){
+  if(event.keyCode == 13)
+{
+    notIntial = false;
+    //resetBall(currentRod);
+    if(currentRod == rod2)
+      {
+        xDirec = +1;
+        yDirec = -1;
+      }
+    else{
+        xDirec = +1;
+        yDirec = +1;
+    }
+    gameStart = true;
+    //enterCount = 0;
+    startGame();
+
   }
 }
 
+//to set game by setting rod and ball
+function setGame()
+{
+  console.log("game being set");
+  gameStart = false;
+  resetRods();
+  resetBall();
+}
+//to reset ball over currentRod
+function resetBall()
+{
+  console.log("ball being set");
+  if(currentRod == rod2)
+  {
+    ball.style.top = container.clientHeight - currentRod.offsetHeight - ball.offsetHeight + "px";
+    ball.style.left = currentRod.offsetLeft + (currentRod.offsetWidth)/2 - (ball.offsetWidth)/2 + "px";
+  }
+  else{
+    ball.style.top = currentRod.offsetHeight + "px";
+    ball.style.left = currentRod.offsetLeft + (currentRod.offsetWidth)/2 - (ball.offsetWidth)/2 + "px";
+  }
+}
+//to reset rod in middle
+function resetRods()
+{
+  console.log("rods being set");
+  rod1.style.left = "45%";
+  rod2.style.left = "45%";
+}
+//function to start game ie launch the ball
 
-var audio  = new sound("Heavy-synth-loop-126-bpm.wav");
-
-
-//making aoudio when ball touch the rod
-
-var touch = new sound("POOL-Pool_Shot-709343898.wav");
-
-//when ball will fall then oh no sound
-
-var no = new sound("Oh-no-sound-effect.mp3");
-//audio section ends here
-
-
-
-const storeName = "PPName";
-const storeScore = "PPMaxScore";
-const rod1Name = "Rod 1";
-const rod2Name = "Rod 2";
-
-
-let score,
-    maxScore,
-    movement,
-    rod,
-    ballSpeedX = 2,
-    ballSpeedY = 2;
-
-let gameOn = false;
-
-let windowWidth = window.innerWidth,
-    windowHeight = window.innerHeight;
-
-
-
-(function () {
-    rod = localStorage.getItem(storeName);
-    maxScore = localStorage.getItem(storeScore);
-
-    if (rod === "null" || maxScore === "null") {
-        alert("This is the first time you are playing this game. LET'S START");
-        maxScore = 0;
-        rod = "Rod1"
-    } else {
-        alert(rod + " has maximum score of " + maxScore * 100);
-    }
-
-    resetBoard(rod);
-})();
-
-
-
-function resetBoard(rodName) {
-
-    rod1.style.left = (window.innerWidth - rod1.offsetWidth) / 2 + 'px';
-    rod2.style.left = (window.innerWidth - rod2.offsetWidth) / 2 + 'px';
-    ball.style.left = (windowWidth - ball.offsetWidth) / 2 + 'px';
-
-
-    // Lossing player gets the ball
-    if (rodName === rod2Name) {
-        ball.style.top = (rod1.offsetTop + rod1.offsetHeight) + 'px';
-        ballSpeedY = 2;
-    } else if (rodName === rod1Name) {
-        ball.style.top = (rod2.offsetTop - rod2.offsetHeight) + 'px';
-        ballSpeedY = -2;
-    }
-
-    score = 0;
-    gameOn = false;
-
+function startGame()
+{
+  gameStart = true;
+  id = setInterval(setBallPosition,10);
 }
 
+//to move ball within container
+function setBallPosition()
+{
+  var ballTop = ball.offsetTop;
+  var ballLeft = ball.offsetLeft;
+  var ballW = ball.offsetWidth;
 
+  if(ballLeft + ballW== container.clientWidth) //ball touches right boundary of the container
+    xDirec*=(-1); //reversing its x coordinates
+  else if(ball.offsetLeft == 0)
+    xDirec*=(-1);
+  else if(notIntial && ballTop == rod1.offsetHeight) //ball lies at the top of the rod1 check if it strikes the rod or not
+  {
+    var rl = rod1.offsetLeft - ball.offsetWidth ;
+    var rr = rod1.offsetLeft + rod1.offsetWidth;
 
-function storeWin(rod, score) {
+    if(ballLeft<= rr && ballLeft>=rl)
+      {
+        yDirec*=(-1);
+        score1++;
+        scoreDisp1.innerText = score1 + "";
+      }
+    else
+      {
+        alert("You Missed it!!");
+        l1[livesNo1-1].style.visibility = "hidden";
+        livesNo1--;
 
-    if (score > maxScore) {
-        maxScore = score;
-        localStorage.setItem(storeName, rod);
-        localStorage.setItem(storeScore, maxScore);
-    }
-    
+        clearInterval(id);
+        if(!(livesNo1 == 0))
+          currentRod = rod1;
+        notIntial = false;
+        setGame();
+        if(livesNo1 == 0)
+          {
+            if(score1 > score2)
+              alert("Winner is player 1");
+            else if(score2 > score1)
+              alert("Winner is player 2");
+            else
+              alert("It's a Tie");
 
-    audio.stop(); //stopping the background music
+            newGame();
+          }
+        return;
+      }
 
+  }
+  else if(notIntial && ballTop + ballW == container.clientHeight - rod2.offsetHeight)
+  {
+    var rl = rod2.offsetLeft - ball.offsetWidth;
+    var rr = rod2.offsetLeft + rod2.offsetWidth;
 
-    clearInterval(movement);
-    resetBoard(rod);
-    no.play();
+    if(ballLeft<=rr && ballLeft>=rl)
+      {
+        yDirec*=(-1);
+        score2++;
+        scoreDisp2.innerText = score2 + "";
+      }
+    else
+      {
+        alert("You Missed it!!");
+        l2[livesNo2-1].style.visibility = "hidden";
+        livesNo2--;
 
-    alert(rod + " wins with a score of " + (score * 100) + ". Max score is: " + (maxScore * 100));
-
+        clearInterval(id);
+        if(!(livesNo2 == 0))
+          currentRod = rod2;
+        notIntial = false;
+        setGame();
+        if(livesNo2 == 0)
+          {
+            if(score1 > score2)
+              alert("Winner is player 1");
+            else if(score2 > score1)
+              alert("Winner is player 2 ");
+            else
+              alert("It's a Tie");
+            newGame();
+          }
+        return;
+      }
+  }
+  ballTop += yDirec;
+  ballLeft += xDirec;
+  ball.style.top = ballTop + "px";
+  ball.style.left = ballLeft + "px";
+  notIntial = true;
+  console.log(ball.offsetTop,ball.offsetLeft);
 }
-
-
-
-window.addEventListener('keypress', function () {
-    let rodSpeed = 20;
-
-    let rodRect = rod1.getBoundingClientRect();
-
-
-    if (event.code === "KeyD" && ((rodRect.x + rodRect.width) < window.innerWidth)) {
-        rod1.style.left = (rodRect.x) + rodSpeed + 'px';
-        rod2.style.left = rod1.style.left;
-    } else if (event.code === "KeyA" && (rodRect.x > 0)) {
-        rod1.style.left = (rodRect.x) - rodSpeed + 'px';
-        rod2.style.left = rod1.style.left;
-    }
-
-
-    if (event.code === "Enter") {
-
-        rule.style. visibility = "hidden";
-
-        if (!gameOn) {
-            gameOn = true;
-            let ballRect = ball.getBoundingClientRect();
-            let ballX = ballRect.x;
-            let ballY = ballRect.y;
-            let ballDia = ballRect.width;
-
-            let rod1Height = rod1.offsetHeight;
-            let rod2Height = rod2.offsetHeight;
-            let rod1Width = rod1.offsetWidth;
-            let rod2Width = rod2.offsetWidth;
-
-
-            movement = setInterval(function () {
-                // Move ball 
-                ballX += ballSpeedX;
-                ballY += ballSpeedY;
-
-                 audio.play(); //starting the back ground music
-
-
-                rod1X = rod1.getBoundingClientRect().x;
-                rod2X = rod2.getBoundingClientRect().x;
-
-                ball.style.left = ballX + 'px';
-                ball.style.top = ballY + 'px';
-
-
-                if ((ballX + ballDia) > windowWidth || ballX < 0) {
-                    ballSpeedX = -ballSpeedX; // Reverses the direction
-                }
-
-                // It specifies the center of the ball on the viewport
-                let ballPos = ballX + ballDia / 2;
-
-                // Check for Rod 1
-                if (ballY <= rod1Height) {
-                    ballSpeedY = -ballSpeedY; // Reverses the direction
-                    score++;
-                    touch.play();
-
-                    // Check if the game ends
-                    if ((ballPos < rod1X) || (ballPos > (rod1X + rod1Width))) {
-                        
-                        storeWin(rod2Name, score);
-
-                         rule.style. visibility = "visible";
-
-                        
-                    }
-                }
-
-                // Check for Rod 2
-                else if ((ballY + ballDia) >= (windowHeight - rod2Height)) {
-                    ballSpeedY = -ballSpeedY; // Reverses the direction
-                    score++;
-                    touch.play();
-
-                    // Check if the game ends
-                    if ((ballPos < rod2X) || (ballPos > (rod2X + rod2Width))) {
-                         
-                        storeWin(rod1Name, score);
-                         rule.style. visibility = "visible";
-                    
-                    }
-                }
-
-            }, 10);
-
-        }
-    }
-
-});
